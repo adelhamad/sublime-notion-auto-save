@@ -74,7 +74,7 @@ python3 -m http.server 8765 --directory site
 
 ## Package Control
 
-The package name is **NotionSave**. The first release is being submitted to the default channel; until accepted, use the manual installation above. The [submission record](https://github.com/adelhamad/sublime-notion-auto-save/blob/main/docs/PACKAGE_CONTROL.md) tracks its status.
+The package name is **NotionSave**. Version 1.0.0 is [submitted to the default channel](https://github.com/sublimehq/package_control_channel/pull/9568) and awaiting review; until accepted, use the manual installation above. The [submission record](https://github.com/adelhamad/sublime-notion-auto-save/blob/main/docs/PACKAGE_CONTROL.md) tracks its status.
 
 ## License
 

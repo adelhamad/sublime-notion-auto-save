@@ -28,7 +28,7 @@ The owner's request to publish follows their manual trial. Unchecked items in [M
 
 The proposed entry is in [package-control-entry.json](package-control-entry.json) and belongs in `repository/n.json` in [sublimehq/package_control_channel](https://github.com/sublimehq/package_control_channel).
 
-Submission PR: pending creation.
+Submission PR: [sublimehq/package_control_channel#9568](https://github.com/sublimehq/package_control_channel/pull/9568), opened 2026-09-21 and awaiting review.
 
 The maintainer must participate in review and address feedback. Package Control availability starts only after acceptance and channel indexing. Until then, users can install the archive from the GitHub release.
 

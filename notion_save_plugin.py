@@ -75,21 +75,29 @@ def plugin_unloaded():
 
 
 if int(sublime.version()) < 3000:
-    sublime.set_timeout(plugin_loaded, 1000)
+    # ST2 initializes its API before importing plugins and has no plugin_loaded hook.
+    # ST3+ invokes plugin_loaded itself after its asynchronous API initialization.
+    plugin_loaded()
 
 
-class SaveToNotionCommand(sublime_plugin.WindowCommand):
+class NotionSaveCommand(sublime_plugin.WindowCommand):
     def target(self, group=-1, index=-1):
         if group >= 0 and index >= 0:
             views = self.window.views_in_group(group)
             return views[index] if index < len(views) else None
         return self.window.active_view()
 
-    def is_enabled(self, group=-1, index=-1):
+    def is_enabled(self, group=-1, index=-1, context_menu=False):
         view = self.target(group, index)
         return view is not None and not view.is_loading() and not view.settings().get("is_widget", False)
 
-    def run(self, group=-1, index=-1):
+    def is_visible(self, group=-1, index=-1, context_menu=False):
+        if not context_menu:
+            return True
+        return (sublime.load_settings(SETTINGS).get("show_context_menu", True)
+                and self.is_enabled(group, index))
+
+    def run(self, group=-1, index=-1, context_menu=False):
         view = self.target(group, index)
         if not view or view.is_loading():
             return
@@ -132,7 +140,26 @@ class NotionSaveSettingsCommand(sublime_plugin.WindowCommand):
             fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
             with os.fdopen(fd, "w") as handle:
                 handle.write('{\n    "api_key": "",\n    "database_id": "",\n    "data_source_id": "",\n    "curl_path": "curl"\n}\n')
-        self.window.open_file(path)
+        package = __package__ or os.path.basename(os.path.dirname(__file__))
+        if int(sublime.version()) >= 3124:
+            self.window.run_command("edit_settings", {
+                "base_file": "${packages}/" + package + "/" + SETTINGS,
+                "user_file": path
+            })
+        else:
+            # edit_settings was added in ST3 build 3124; preserve ST2 support.
+            sublime.run_command("new_window")
+            window = sublime.active_window()
+            window.run_command("set_layout", {
+                "cols": [0.0, 0.5, 1.0], "rows": [0.0, 1.0],
+                "cells": [[0, 0, 1, 1], [1, 0, 2, 1]]
+            })
+            window.focus_group(0)
+            window.run_command("open_file", {
+                "file": "${packages}/" + package + "/" + SETTINGS
+            })
+            window.focus_group(1)
+            window.open_file(path)
 
 
 class NotionRetryUploadsCommand(sublime_plugin.WindowCommand):

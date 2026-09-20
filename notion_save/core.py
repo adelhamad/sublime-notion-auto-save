@@ -135,14 +135,14 @@ class CurlClient(object):
         args = [self.executable, "-q", "--config", "-", "--silent", "--show-error",
                 "--proto", "=https", "--connect-timeout", "10", "--max-time", "45",
                 "--request", method, "--include", "--write-out", "\n%{http_code}"]
-        options = {}
+        startup = None
         if os.name == "nt":
             startup = subprocess.STARTUPINFO()
-            startup.dwFlags |= 1  # STARTF_USESHOWWINDOW in Python 2.6 too.
-            options["startupinfo"] = startup
+            startup.dwFlags |= getattr(subprocess, "STARTF_USESHOWWINDOW", 1)
+            startup.wShowWindow = 0  # SW_HIDE, including Python 2.6.
         try:
             process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE, **options)
+                                       stderr=subprocess.PIPE, startupinfo=startup)
         except OSError:
             raise UploadError("Cannot start curl. Set curl_path to a working curl executable.")
         output, unused_stderr = process.communicate(("\n".join(config) + "\n").encode("utf-8"))

@@ -7,5 +7,7 @@
     // Optional: use a specific data source; takes precedence over database_id.
     "data_source_id": "",
     // Use an absolute path if curl is not on Sublime's PATH.
-    "curl_path": "curl"
+    "curl_path": "curl",
+    // Set false to keep Save to Notion only in File and the Command Palette.
+    "show_context_menu": true
 }

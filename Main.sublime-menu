@@ -2,7 +2,7 @@
     {
         "id": "file",
         "children": [
-            { "caption": "Save to Notion", "command": "save_to_notion" }
+            { "caption": "Save to Notion", "command": "notion_save" }
         ]
     },
     {

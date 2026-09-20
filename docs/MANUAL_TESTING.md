@@ -43,4 +43,4 @@ Record:
 - [ ] Open `site/index.html` through a local server or Vercel; check desktop and phone layouts.
 - [ ] Test demo save/reset, copy settings, section links, FAQs, and authenticated GitHub download.
 
-Publication remains blocked on manual approval, even if every automated check passes.
+Adel requested publication after a manual trial on 2026-09-21. The unchecked items above remain a reproducible checklist, not a claim of completed validation on every editor/platform.

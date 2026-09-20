@@ -1,4 +1,3 @@
 [
-    { "caption": "-" },
-    { "caption": "Save to Notion", "command": "save_to_notion", "args": { "group": -1, "index": -1 } }
+    { "caption": "Save to Notion", "command": "notion_save", "args": { "group": -1, "index": -1, "context_menu": true } }
 ]

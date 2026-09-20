@@ -1,5 +1,5 @@
 [
-    { "caption": "Notion: Save and Close Tab", "command": "save_to_notion" },
+    { "caption": "Notion: Save and Close Tab", "command": "notion_save" },
     { "caption": "Notion: Settings", "command": "notion_save_settings" },
     { "caption": "Notion: Retry Uploads", "command": "notion_retry_uploads" },
     { "caption": "Notion: Recover Pending Upload", "command": "notion_recover_upload" },

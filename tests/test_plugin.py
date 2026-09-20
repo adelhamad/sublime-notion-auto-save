@@ -41,7 +41,7 @@ class PluginTests(unittest.TestCase):
         self.window.focus_view.side_effect = lambda view: setattr(self, 'active', view)
         self.window.run_command.side_effect = self.close
         self.sublime = types.ModuleType('sublime')
-        self.sublime.version = lambda: '2221'
+        self.sublime.version = lambda: '4200'
         self.sublime.set_timeout = Mock()
         self.sublime.status_message = Mock()
         self.sublime.error_message = Mock()
@@ -57,12 +57,13 @@ class PluginTests(unittest.TestCase):
         self.addCleanup(self.modules.stop)
         sys.modules.pop('notion_save_plugin', None)
         self.plugin = importlib.import_module('notion_save_plugin')
+        self.sublime.version = lambda: '2221'
         self.worker = Mock()
         self.worker.queue = Queue(os.path.join(self.temp.name, 'queue'))
         self.worker_patch = patch.object(self.plugin, 'get_worker', return_value=self.worker)
         self.worker_patch.start()
         self.addCleanup(self.worker_patch.stop)
-        self.command = self.plugin.SaveToNotionCommand(self.window)
+        self.command = self.plugin.NotionSaveCommand(self.window)
 
     def close(self, command):
         self.assertEqual(command, 'close_file')
@@ -110,6 +111,50 @@ class PluginTests(unittest.TestCase):
         self.assertIn(self.first, self.views)
         self.assertFalse(self.first.scratch)
         self.assertEqual(len(self.worker.queue.jobs()), 1)
+
+    def test_context_menu_can_be_hidden_without_hiding_palette(self):
+        self.sublime.load_settings = lambda name: {'show_context_menu': False}
+        self.assertFalse(self.command.is_visible(context_menu=True))
+        self.assertTrue(self.command.is_visible())
+
+    def test_context_menu_hidden_for_widgets_and_no_view(self):
+        self.first.settings = lambda: {'is_widget': True}
+        self.assertFalse(self.command.is_visible(context_menu=True))
+        self.active = None
+        self.assertFalse(self.command.is_visible(context_menu=True))
+        self.assertFalse(self.command.is_enabled())
+
+    def test_tab_menu_accepts_context_flag(self):
+        self.command.run(group=0, index=1, context_menu=True)
+        self.assertNotIn(self.second, self.views)
+        self.assertIn(self.first, self.views)
+
+    def test_modern_settings_use_split_editor_and_preserve_user_file(self):
+        self.sublime.version = lambda: '4200'
+        os.mkdir(os.path.join(self.temp.name, 'User'))
+        path = os.path.join(self.temp.name, 'User', self.plugin.SETTINGS)
+        with open(path, 'w') as handle:
+            handle.write('{"api_key": "existing-placeholder"}')
+        self.window.run_command.side_effect = None
+        self.plugin.NotionSaveSettingsCommand(self.window).run()
+        command, args = self.window.run_command.call_args.args
+        self.assertEqual(command, 'edit_settings')
+        self.assertEqual(args['user_file'], path)
+        with open(path) as handle:
+            self.assertIn('existing-placeholder', handle.read())
+
+    def test_legacy_settings_open_in_two_groups(self):
+        os.mkdir(os.path.join(self.temp.name, 'User'))
+        settings_window = Mock()
+        self.sublime.run_command = Mock()
+        self.sublime.active_window = lambda: settings_window
+        self.plugin.NotionSaveSettingsCommand(self.window).run()
+        self.sublime.run_command.assert_called_once_with('new_window')
+        self.assertEqual(settings_window.focus_group.call_args_list[0].args, (0,))
+        self.assertEqual(settings_window.focus_group.call_args_list[1].args, (1,))
+        self.assertEqual(settings_window.run_command.call_args_list[0].args[0], 'set_layout')
+        settings_window.open_file.assert_called_once_with(
+            os.path.join(self.temp.name, 'User', self.plugin.SETTINGS))
 
 
 if __name__ == '__main__':

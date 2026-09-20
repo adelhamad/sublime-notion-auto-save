@@ -1,0 +1,15 @@
+NotionSave 1.0.0
+================
+
+Initial release:
+
+- Save the full buffer to a Notion database and close its tab.
+- Create a durable local snapshot before closing, then upload in a worker.
+- Retry connection failures and rate limits; recover pending notes locally.
+- Hold ambiguous uploads for review to avoid automatic duplicate writes.
+- Save from the editor menu, tab menu, File menu, or Command Palette.
+- Set show_context_menu to false to hide the editor/tab menu entries.
+- Open default and user settings side by side from Notion: Settings.
+
+Requires your own Notion connection token and a curl executable with modern
+HTTPS support. Read README.md for setup and recovery instructions.

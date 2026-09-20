@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f2e9">
+  <meta name="description" content="Save a Sublime Text tab to your Notion database and get back to work. Installation, configuration, and recovery instructions for Notion Save.">
+  <title>Save to Notion — Sublime Text plugin · Adel</title>
+  <link rel="preload" href="./jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%2336734d'/%3E%3Cpath d='M9 23V9l14 14V9' fill='none' stroke='%23fbfaf5' stroke-width='2.5'/%3E%3C/svg%3E">
+  <style>
+    @font-face{font-family:JetBrains Mono;font-style:normal;font-weight:100 800;font-display:swap;src:url('./jetbrains-mono.woff2') format('woff2')}
+    :root{--paper:#f4f2e9;--raised:#fbfaf5;--quiet:#ece9dc;--ink:#23241f;--soft:#575950;--faint:#66685f;--rule:#aaa99e;--light:#d5d2c5;--blue:#315f98;--green:#36734d;--amber:#8d671f;color-scheme:light}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:110px;scrollbar-color:var(--rule) var(--paper)}
+    body{margin:0;background-color:var(--paper);background-image:linear-gradient(#23241f07 1px,transparent 1px),linear-gradient(90deg,#23241f07 1px,transparent 1px);background-size:20px 20px;color:var(--ink);font:13px/1.75 'JetBrains Mono',SFMono-Regular,Consolas,monospace}
+    ::selection{background:#d2dfd0;color:var(--ink)}a{color:var(--blue);text-underline-offset:4px}a:hover{color:#224c7d}button{font:inherit;cursor:pointer}button:disabled{cursor:default;opacity:.65}a,button,summary{-webkit-tap-highlight-color:transparent}:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+    h1,h2,h3,p{margin-top:0}h1,h2,h3{font-weight:650;letter-spacing:-.035em;text-wrap:balance}h1{font-size:clamp(30px,4.5vw,43px);line-height:1.15;margin-bottom:14px}h2{font-size:15px;margin:0}h3{font-size:13px;margin-bottom:7px}p{max-width:75ch;color:var(--soft);margin-bottom:12px}svg{display:block;flex:none}code,pre{font:inherit}code{padding:1px 4px;border:1px solid var(--light);background:var(--quiet);overflow-wrap:anywhere}pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}pre code{padding:0;border:0;background:none}button svg{width:14px;height:14px}
+    .skip{position:fixed;top:8px;left:12px;z-index:100;padding:8px 12px;background:var(--ink);color:var(--raised);transform:translateY(-160%)}.skip:focus{transform:none}
+    .topbar{position:sticky;top:0;z-index:20;min-height:48px;background:var(--paper);border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:stretch}.brand-block{padding:7px 14px;display:flex;gap:18px;align-items:center;border-right:1px solid var(--rule)}.brand{display:flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;font-size:12px;font-weight:700}.brand-icon{display:grid;place-items:center;width:24px;height:24px;background:var(--green);border-radius:5px;color:var(--raised)}.context{font-size:10px;color:var(--faint)}.topnav{display:flex}.topnav a{display:grid;place-items:center;min-height:47px;padding:0 17px;border-left:1px solid var(--light);color:var(--soft);text-decoration:none;font-size:11px}.topnav a:hover{background:var(--quiet)}
+    .jump{position:sticky;top:48px;z-index:15;background:var(--paper);border-bottom:1px solid var(--rule)}.jump-inner{width:min(100% - 40px,1012px);margin:auto;display:flex;gap:23px;align-items:center;min-height:41px;overflow:auto;white-space:nowrap;font-size:10px}.jump span{color:var(--faint)}.jump a{color:var(--soft);text-decoration:none;padding:10px 0}.jump a:hover,.jump a[aria-current]{color:var(--green);text-decoration:underline;text-underline-offset:5px}
+    main{width:min(100% - 40px,1012px);margin:30px auto 64px}.intro{padding:26px 25px 24px;border:1px solid var(--rule);background:var(--raised);margin-bottom:24px}.intro p{max-width:72ch}.intro .lead{font-size:14px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.button{min-height:38px;padding:7px 12px;display:inline-flex;align-items:center;justify-content:center;gap:8px;color:var(--ink);background:var(--quiet);border:1px solid var(--rule);text-decoration:none;font-size:11px;font-weight:650}.button:hover{background:#e4e1d3;color:var(--ink)}.button.primary{background:var(--ink);border-color:var(--ink);color:var(--raised)}.button.primary:hover{background:#3a3b35}.small{font-size:11px;color:var(--faint)}.intro .small{margin:16px 0 0}
+    .section{background:var(--raised);border:1px solid var(--rule);margin-bottom:23px;scroll-margin-top:110px}.section-head{min-height:46px;padding:10px 15px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--rule)}.section-head::before{content:'';width:5px;height:5px;flex:none;background:var(--green);border-radius:50%}.anchor{margin-left:auto;color:var(--faint);font-size:12px;text-decoration:none}.section-body{padding:17px 15px}.section-body>p:last-child{margin-bottom:0}.feature-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:0;margin:0 0 18px;list-style:none;border-top:1px solid var(--light);border-left:1px solid var(--light);font-size:11px;color:var(--soft)}.feature-list li{display:flex;gap:9px;padding:8px 10px;border-bottom:1px solid var(--light);border-right:1px solid var(--light)}.feature-list li::before{content:'—';color:var(--green)}
+    .demo{margin:0;border:1px solid var(--rule)}.demo-toolbar{display:flex;align-items:stretch;justify-content:space-between;background:var(--quiet);border-bottom:1px solid var(--rule);min-height:39px}.demo-title{padding:8px 11px;font-size:10px;color:var(--soft)}.replay{padding:7px 12px;border:0;border-left:1px solid var(--light);background:transparent;color:var(--blue);font-size:10px}.replay:hover{background:var(--paper)}.editor{position:relative;min-height:245px;padding:0 18px 20px;background:#fbfaf5}.editor-tab{width:175px;margin:0 0 20px;padding:9px 12px;border:1px solid var(--light);border-top:0;background:var(--paper);font-size:11px;color:var(--soft);display:flex;justify-content:space-between}.editor-lines{font-size:12px;line-height:2.1;color:var(--soft)}.line{display:flex;gap:19px}.number{color:var(--faint);min-width:12px;text-align:right}.comment{color:var(--green)}.demo-menu{position:absolute;right:28px;top:78px;width:220px;background:var(--raised);border:1px solid var(--rule);padding:5px}.menu-label{display:block;padding:7px 10px;font-size:11px;color:var(--faint);border-bottom:1px solid var(--light);margin-bottom:5px}.save-demo{width:100%;padding:10px;background:var(--quiet);color:var(--ink);border:0;display:flex;align-items:center;justify-content:space-between;font-size:11px;text-align:left}.save-demo:hover{background:#dce5d7}.save-demo svg{color:var(--green)}.empty-editor{min-height:224px;display:grid;place-content:center;text-align:center;gap:5px;color:var(--faint);font-size:12px}.empty-editor strong{color:var(--ink);font-weight:500}.demo-status{min-height:37px;border-top:1px solid var(--rule);background:var(--paper);padding:8px 11px;display:flex;gap:9px;align-items:center;color:var(--soft);font-size:10px}.status-dot{width:6px;height:6px;background:var(--faint);border-radius:50%;flex:none}.demo-status[data-state='saved'] .status-dot{background:var(--green)}.demo-status[data-state='uploading'] .status-dot{background:var(--amber)}.caption{margin:9px 0 0;font-size:10px;color:var(--faint)}[hidden]{display:none!important}
+    .steps{list-style:none;padding:0;margin:0;counter-reset:step}.steps>li{display:grid;grid-template-columns:35px minmax(0,1fr);gap:12px;padding:20px 15px;border-bottom:1px solid var(--light);counter-increment:step}.steps>li:last-child{border-bottom:0}.steps>li::before{content:counter(step,decimal-leading-zero);color:var(--green);font-size:11px;padding-top:1px}.steps p{font-size:12px;margin-bottom:10px}.steps .button{margin-top:3px}.steps .small{font-size:10px;margin-top:9px;margin-bottom:0}
+    .code-box{border:1px solid var(--light);background:var(--paper);margin:13px 0}.code-head{padding:7px 10px;border-bottom:1px solid var(--light);display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--faint);font-size:10px}.copy{min-height:28px;border:1px solid var(--rule);padding:2px 9px;background:var(--raised);color:var(--soft);font-size:10px}.copy:hover{background:var(--quiet)}.code-box pre{padding:14px;font-size:11px;line-height:1.9;color:var(--ink)}.key{color:var(--blue)}.value{color:var(--green)}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:11px;text-align:left}th{background:var(--paper);color:var(--faint);font-weight:500}th,td{border:1px solid var(--light);padding:10px;vertical-align:top}td{color:var(--soft)}td:first-child{color:var(--ink);width:27%}td code{white-space:nowrap}
+    .note{display:flex;gap:12px;padding:13px 15px;background:var(--paper);border-top:1px solid var(--light);color:var(--soft);font-size:11px}.note svg{color:var(--green);margin-top:2px}.note p{margin:0;font-size:11px}.commands{margin:0;display:grid;grid-template-columns:1fr}.commands>div{padding:13px 0;border-bottom:1px solid var(--light)}.commands>div:first-child{padding-top:0}.commands>div:last-child{padding-bottom:0;border:0}.commands dt{font-size:12px;color:var(--ink);margin-bottom:4px}.commands dd{margin:0;max-width:75ch;font-size:11px;color:var(--soft)}details+details{border-top:1px solid var(--light)}summary{padding:13px 15px;cursor:pointer;font-size:12px;color:var(--soft)}summary:hover{background:var(--paper)}.answer{padding:0 15px 16px 32px}.answer p{font-size:11px;margin:0}footer{min-height:56px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px;border-top:1px solid var(--rule);background:var(--paper);font-size:10px;color:var(--faint)}footer a{color:var(--soft)}footer nav{display:flex;gap:18px}
+    @media(min-width:900px){.intro{padding-right:160px}.intro h1{white-space:nowrap}}
+    @media(max-width:720px){body{font-size:12px}.context{display:none}.brand-block{padding:7px 10px;border:0}.topnav a{padding:0 11px;font-size:10px}.jump-inner{width:calc(100% - 24px);gap:20px}.jump-inner>span{display:none}main{width:calc(100% - 24px);margin-top:18px}.intro{padding:21px 17px}.intro .lead{font-size:12px}.feature-list{grid-template-columns:1fr}.demo-menu{right:15px;top:108px;width:205px}.editor{min-height:280px;padding-left:12px}.editor-lines{font-size:10px}.line{gap:10px}.empty-editor{min-height:259px}.steps>li{grid-template-columns:24px minmax(0,1fr);gap:9px;padding:17px 12px}.code-box pre{padding:11px;font-size:10px}td,th{padding:9px;font-size:10px}.section-body{padding:15px 12px}.section-head{padding:10px 12px}footer{align-items:flex-start;flex-direction:column;padding:16px 12px}}
+    @media(max-width:390px){.topnav a{padding:0 8px}.brand{font-size:11px}.brand-icon{width:21px;height:21px}.topnav .source{display:none}.jump-inner{gap:17px}.demo-title{font-size:9px}.editor-lines .line:nth-child(4){max-width:30ch}.editor{min-height:300px}.demo-menu{top:150px}.empty-editor{min-height:279px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="brand-block"><a class="brand" href="https://adel-dev-tools.vercel.app/"><span class="brand-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m8 5-6 7 6 7m8-14 6 7-6 7M14 3l-4 18"/></svg></span>adel.dev/tools</a><span class="context">Sublime Text · Notion Save</span></div>
+    <nav class="topnav" aria-label="Main"><a href="#install">Install</a><a href="#configuration">Configure</a><a class="source" href="https://github.com/adelhamad/sublime-notion-auto-save">GitHub</a></nav>
+  </header>
+  <nav class="jump" aria-label="On this page"><div class="jump-inner"><span>On this page</span><a href="#overview" aria-current="location">Overview</a><a href="#install">Installation</a><a href="#configuration">Configuration</a><a href="#recovery">Recovery</a><a href="#questions">Questions</a></div></nav>
+  <main id="main">
+    <section class="intro" aria-labelledby="title">
+      <h1 id="title">Save to Notion.</h1>
+      <p class="lead">A home for your notes. One less open tab.</p>
+      <p>Send the current file or unsaved note to your Notion database. The tab closes after a local backup; the upload runs in the background, without waiting for the network.</p>
+      <div class="actions"><a class="button primary" href="#install">Install the plugin <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6"/></svg></a><a class="button" href="https://github.com/adelhamad/sublime-notion-auto-save">View private repository</a></div>
+      <p class="small">For Sublime Text 2, with compatibility for 3 &amp; 4 · Your own Notion API token</p>
+    </section>
+    <section class="section" id="overview" aria-labelledby="overview-title">
+      <div class="section-head"><h2 id="overview-title">One action. Back to your work.</h2><a class="anchor" href="#overview" aria-label="Link to overview">#</a></div>
+      <div class="section-body">
+        <p>Right-click inside the editor or on a tab and choose <strong>Save to Notion</strong>. The full buffer becomes a new page in your chosen database.</p>
+        <ul class="feature-list"><li>Works with saved files and unsaved notes</li><li>Closes the tab without a save dialog</li><li>Keeps a local copy until the upload succeeds</li><li>Retries connection failures in the background</li></ul>
+        <figure class="demo" aria-label="Interactive demonstration of saving a note">
+          <div class="demo-toolbar"><span class="demo-title">Sublime Text · interactive preview</span><button class="replay" type="button" id="replay">Reset demo</button></div>
+          <div class="editor">
+            <div id="demo-note"><div class="editor-tab"><span>quick-notes.txt</span><span role="img" aria-label="Unsaved">●</span></div><div class="editor-lines"><div class="line"><span class="number">1</span><span class="comment"># An idea for later</span></div><div class="line"><span class="number">2</span><span>Keep the useful bits.</span></div><div class="line"><span class="number">3</span><span>Make room for the next thing.</span></div><div class="line"><span class="number">4</span><span>Pick this up in Notion.</span></div></div>
+            <div class="demo-menu"><span class="menu-label" aria-hidden="true">Copy</span><button class="save-demo" type="button" id="save-demo">Save to Notion<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div></div>
+            <div class="empty-editor" id="demo-empty" hidden><strong>Tab closed.</strong><span>Your next thought goes here.</span></div>
+          </div>
+          <figcaption class="demo-status" id="demo-status" data-state="ready"><span class="status-dot" aria-hidden="true"></span><span id="demo-message" role="status" aria-live="polite">Try “Save to Notion” in the preview.</span></figcaption>
+        </figure>
+        <p class="caption">Illustrative preview. No data is sent and no Notion connection is needed here.</p>
+      </div>
+    </section>
+    <section class="section" id="install" aria-labelledby="install-title">
+      <div class="section-head"><h2 id="install-title">Install the plugin</h2><a class="anchor" href="#install" aria-label="Link to installation">#</a></div>
+      <ol class="steps">
+        <li><div><h3>Download the package</h3><p>Sign in to GitHub with an account that has access to the private repository, download its ZIP, then extract it.</p><a class="button" href="https://github.com/adelhamad/sublime-notion-auto-save/archive/refs/heads/main.zip">Download source ZIP <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5"/></svg></a><p class="small">A GitHub 404 usually means you’re signed out or don’t have repository access.</p></div></li>
+        <li><div><h3>Add it to Sublime Text</h3><p>In Sublime, open <strong>Preferences → Browse Packages…</strong>. Rename the extracted folder to <code>NotionSave</code> and move it into the Packages folder.</p><p>The file <code>notion_save_plugin.py</code> should sit directly inside <code>Packages/NotionSave/</code>, alongside the <code>notion_save</code> folder. Restart Sublime.</p><p class="small">Requires curl with modern HTTPS support. macOS includes curl; on Windows or Linux, install it if needed and set its path in the plugin settings.</p></div></li>
+        <li><div><h3>Connect your Notion database</h3><p>Create an internal connection in <a href="https://www.notion.so/profile/integrations">Notion’s integration settings</a> with <strong>Read content</strong>, <strong>Insert content</strong>, and <strong>Update content</strong> access. Copy its API token.</p><p>Open your target database in Notion. In its <strong>••• → Connections</strong> menu, add that connection. Copy the database URL.</p><p class="small">Use the original database, rather than a linked view. Its existing title column is detected automatically.</p></div></li>
+        <li><div><h3>Save your settings</h3><p>Open Sublime’s Command Palette with <strong>⌘⇧P</strong> on macOS or <strong>Ctrl+Shift+P</strong> on Windows/Linux. Run <strong>Notion: Settings</strong>, paste the example below, and replace both placeholders.</p>
+          <div class="code-box"><div class="code-head"><span>Notion Save.sublime-settings</span><button class="copy" type="button" data-copy="settings-code" aria-label="Copy settings example">Copy</button></div><pre><code id="settings-code">{
+    <span class="key">"api_key"</span>: <span class="value">"YOUR_NOTION_API_TOKEN"</span>,
+    <span class="key">"database_id"</span>: <span class="value">"YOUR_NOTION_DATABASE_URL_OR_ID"</span>
+}</code></pre></div>
+          <p>Save the settings file. Open a note, right-click, and select <strong>Save to Notion</strong>. Upload progress appears in Sublime’s status bar.</p><p class="small">Enter your token only in Sublime’s user settings. This website never asks for or receives it.</p>
+        </div></li>
+      </ol>
+    </section>
+    <section class="section" id="configuration" aria-labelledby="configuration-title">
+      <div class="section-head"><h2 id="configuration-title">Configuration reference</h2><a class="anchor" href="#configuration" aria-label="Link to configuration">#</a></div>
+      <div class="section-body"><p>Run <strong>Notion: Settings</strong> to edit your user settings. Changes are picked up automatically.</p><div class="table-wrap"><table><thead><tr><th scope="col">Setting</th><th scope="col">What to enter</th></tr></thead><tbody><tr><td><code>api_key</code></td><td>Your Notion connection token. Alternatively, set the <code>NOTION_API_KEY</code> environment variable before launching Sublime.</td></tr><tr><td><code>database_id</code></td><td>The full database URL or its ID. The database must be shared with your connection.</td></tr><tr><td><code>data_source_id</code></td><td>Optional. Select a specific data source when a database has more than one. Takes precedence over <code>database_id</code>.</td></tr><tr><td><code>curl_path</code></td><td>Optional. Defaults to <code>curl</code>. Use the full executable path if Sublime cannot find it, such as <code>/usr/bin/curl</code>.</td></tr></tbody></table></div></div>
+      <div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v7m0-11v1"/></svg><p>Settings live in <code>Packages/User/Notion Save.sublime-settings</code>. Keep your API token out of the repository and your Vercel deployment.</p></div>
+    </section>
+    <section class="section" id="recovery" aria-labelledby="recovery-title">
+      <div class="section-head"><h2 id="recovery-title">If an upload needs attention</h2><a class="anchor" href="#recovery" aria-label="Link to recovery">#</a></div>
+      <div class="section-body"><p>Your text is saved locally before the tab closes. Connection failures and rate limits retry automatically while Sublime is running. These Command Palette actions help with everything else.</p><dl class="commands"><div><dt>Notion: Retry Uploads</dt><dd>Retry pending uploads and failures after fixing your token, database permissions, or settings. An uncertain upload is left for review.</dd></div><div><dt>Notion: Recover Pending Upload</dt><dd>See pending uploads and their errors. Select one to open a copy of the original text in a new tab. The original queue entry stays in place.</dd></div><div><dt>Notion: Open Queue Folder</dt><dd>Open the local snapshots in <code>Packages/User/Notion Save Queue</code>. Successful uploads are removed automatically.</dd></div></dl></div>
+      <div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3 2 21h20L12 3Z"/><path d="M12 9v5m0 3v1"/></svg><p>If a write times out or Sublime quits during a request, check Notion before sending the recovered copy again. The first request may already have succeeded.</p></div>
+    </section>
+    <section class="section" id="questions" aria-labelledby="questions-title">
+      <div class="section-head"><h2 id="questions-title">A few useful details</h2><a class="anchor" href="#questions" aria-label="Link to questions">#</a></div>
+      <details><summary>Can I install it through Package Control?</summary><div class="answer"><p>Not yet. Submission is being prepared and will happen only after manual testing and approval to publish. For now, use the manual installation steps above.</p></div></details>
+      <details><summary>Does it keep uploading after I quit Sublime?</summary><div class="answer"><p>The worker runs inside Sublime, so keep the app open until the status bar confirms the save. Pending uploads resume on the next launch. An interrupted write is held for review so it isn’t blindly sent twice.</p></div></details>
+      <details><summary>What gets saved, and how is the page named?</summary><div class="answer"><p>The entire buffer is saved as plain text, including unsaved changes. A saved file uses its filename as the page title; an untitled note uses its first nonempty line. Long notes are split into Notion paragraph blocks. Markdown is kept as text. The limit is 5 MB per buffer.</p></div></details>
+      <details><summary>Does it change or delete my local file?</summary><div class="answer"><p>No. The command closes the selected tab and sends its current contents to Notion. It does not overwrite or delete the original file on disk. Unsaved changes are included in the queued snapshot.</p></div></details>
+      <details><summary>Where does my data go?</summary><div class="answer"><p>Note text goes directly from your computer to Notion’s API. Pending snapshots and your settings stay on your computer as plain text; the API token is not stored in queue entries. This documentation page has no analytics, credentials form, or upload service.</p></div></details>
+      <details><summary>How can I deploy this page on Vercel?</summary><div class="answer"><p>Import the private GitHub repository into Vercel, leave the Root Directory at the repository root, and choose the Other framework preset. The included <code>vercel.json</code> publishes only the <code>site</code> directory. No build command or environment variables are needed.</p></div></details>
+    </section>
+    <p id="copy-status" class="small" role="status" aria-live="polite"></p>
+  </main>
+  <footer><span>Built by <a href="https://www.linkedin.com/in/adelhamad/">Adel Hamad</a> · Notion Save</span><nav aria-label="Footer"><a href="https://adel-dev-tools.vercel.app/">More dev tools</a><a href="https://github.com/adelhamad/sublime-notion-auto-save">Private repository</a><a href="#main">Back to top</a></nav></footer>
+  <script>
+    (() => {
+      const note = document.getElementById('demo-note');
+      const empty = document.getElementById('demo-empty');
+      const status = document.getElementById('demo-status');
+      const message = document.getElementById('demo-message');
+      const replay = document.getElementById('replay');
+      const timers = [];
+      document.getElementById('save-demo').addEventListener('click', () => {
+        note.hidden = true;
+        empty.hidden = false;
+        replay.focus({preventScroll:true});
+        status.dataset.state = 'uploading';
+        message.textContent = 'Tab closed. Local copy saved. Uploading in the background…';
+        timers.push(setTimeout(() => {
+          status.dataset.state = 'saved';
+          message.textContent = 'Saved to Notion: quick-notes.txt — demo complete.';
+        }, 1800));
+      });
+      replay.addEventListener('click', () => {
+        timers.splice(0).forEach(clearTimeout);
+        note.hidden = false;
+        empty.hidden = true;
+        status.dataset.state = 'ready';
+        message.textContent = 'Try “Save to Notion” in the preview.';
+      });
+      document.querySelectorAll('[data-copy]').forEach(button => {
+        button.addEventListener('click', async () => {
+          const source = document.getElementById(button.dataset.copy);
+          const feedback = document.getElementById('copy-status');
+          try {
+            await navigator.clipboard.writeText(source.textContent);
+            button.textContent = 'Copied';
+            feedback.textContent = 'Settings example copied. Replace both placeholders in Sublime.';
+            setTimeout(() => { button.textContent = 'Copy'; }, 2200);
+          } catch {
+            const range = document.createRange();
+            range.selectNodeContents(source);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            button.textContent = 'Text selected';
+            feedback.textContent = 'Clipboard access is unavailable. Copy the selected settings with your keyboard.';
+          }
+        });
+      });
+      if ('IntersectionObserver' in window) {
+        const links = [...document.querySelectorAll('.jump a')];
+        const observer = new IntersectionObserver(entries => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            links.forEach(link => {
+              if (link.hash === '#' + entry.target.id) link.setAttribute('aria-current', 'location');
+              else link.removeAttribute('aria-current');
+            });
+          }
+        }, {rootMargin:'-110px 0px -55% 0px'});
+        document.querySelectorAll('main > section[id]').forEach(section => observer.observe(section));
+      }
+    })();
+  </script>
+</body>
+</html>

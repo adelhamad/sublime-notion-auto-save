@@ -1,0 +1,19 @@
+NotionSave
+==========
+
+Save your current buffer to Notion and close the tab without a network wait.
+
+1. Open the Command Palette and run "Notion: Settings".
+2. Set api_key and database_id (or data_source_id).
+3. Share your Notion database with the connection. Enable Read content,
+   Insert content, and Update content.
+4. Right-click a note and choose "Save to Notion".
+
+Requires curl with modern HTTPS support. Use curl_path if needed.
+
+Pending notes are kept in Packages/User/Notion Save Queue.
+Use "Notion: Recover Pending Upload" to restore a copy.
+Keep Sublime open until the status bar confirms the upload.
+
+If an upload is uncertain, check Notion before sending it again.
+See README.md for installation details and recovery behavior.

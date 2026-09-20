@@ -1,0 +1,27 @@
+[
+    {
+        "id": "file",
+        "children": [
+            { "caption": "Save to Notion", "command": "save_to_notion" }
+        ]
+    },
+    {
+        "id": "preferences",
+        "children": [
+            {
+                "id": "package-settings",
+                "children": [
+                    {
+                        "caption": "Notion Save",
+                        "children": [
+                            { "caption": "Settings", "command": "notion_save_settings" },
+                            { "caption": "Retry Uploads", "command": "notion_retry_uploads" },
+                            { "caption": "Recover Pending Upload", "command": "notion_recover_upload" },
+                            { "caption": "Open Queue Folder", "command": "notion_open_queue" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

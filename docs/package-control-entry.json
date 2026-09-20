@@ -1,0 +1,13 @@
+{
+  "name": "NotionSave",
+  "description": "Save and close a tab, then upload its text to a Notion database in the background, with a durable local recovery queue.",
+  "details": "https://github.com/adelhamad/sublime-notion-auto-save",
+  "labels": ["notion", "productivity"],
+  "releases": [
+    {
+      "sublime_text": ">=2221",
+      "platforms": ["*"],
+      "tags": true
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.venv/
+dist/
+Notion Save.sublime-settings.local
+*.sublime-workspace
+
+
+package-metadata.json

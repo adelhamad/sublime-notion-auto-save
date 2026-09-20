@@ -1,0 +1,4 @@
+[
+    { "caption": "-" },
+    { "caption": "Save to Notion", "command": "save_to_notion", "args": { "group": -1, "index": -1 } }
+]

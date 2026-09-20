@@ -1,0 +1,11 @@
+{
+    // Use Notion: Settings to put your credentials in Packages/User.
+    // You can also supply the token with the NOTION_API_KEY environment variable.
+    "api_key": "",
+    // Database ID or full Notion database URL.
+    "database_id": "",
+    // Optional: use a specific data source; takes precedence over database_id.
+    "data_source_id": "",
+    // Use an absolute path if curl is not on Sublime's PATH.
+    "curl_path": "curl"
+}

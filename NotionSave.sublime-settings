@@ -1,5 +1,5 @@
 {
-    // Use Notion: Settings to put your credentials in Packages/User.
+    // Use Preferences: NotionSave Settings to put your credentials in Packages/User.
     // You can also supply the token with the NOTION_API_KEY environment variable.
     "api_key": "",
     // Database ID or full Notion database URL.

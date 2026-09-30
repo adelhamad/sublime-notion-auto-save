@@ -129,33 +129,6 @@ class PluginTests(unittest.TestCase):
         self.assertNotIn(self.second, self.views)
         self.assertIn(self.first, self.views)
 
-    def test_modern_settings_use_split_editor_and_preserve_user_file(self):
-        self.sublime.version = lambda: '4200'
-        os.mkdir(os.path.join(self.temp.name, 'User'))
-        path = os.path.join(self.temp.name, 'User', self.plugin.SETTINGS)
-        with open(path, 'w') as handle:
-            handle.write('{"api_key": "existing-placeholder"}')
-        self.window.run_command.side_effect = None
-        self.plugin.NotionSaveSettingsCommand(self.window).run()
-        command, args = self.window.run_command.call_args.args
-        self.assertEqual(command, 'edit_settings')
-        self.assertEqual(args['user_file'], path)
-        with open(path) as handle:
-            self.assertIn('existing-placeholder', handle.read())
-
-    def test_legacy_settings_open_in_two_groups(self):
-        os.mkdir(os.path.join(self.temp.name, 'User'))
-        settings_window = Mock()
-        self.sublime.run_command = Mock()
-        self.sublime.active_window = lambda: settings_window
-        self.plugin.NotionSaveSettingsCommand(self.window).run()
-        self.sublime.run_command.assert_called_once_with('new_window')
-        self.assertEqual(settings_window.focus_group.call_args_list[0].args, (0,))
-        self.assertEqual(settings_window.focus_group.call_args_list[1].args, (1,))
-        self.assertEqual(settings_window.run_command.call_args_list[0].args[0], 'set_layout')
-        settings_window.open_file.assert_called_once_with(
-            os.path.join(self.temp.name, 'User', self.plugin.SETTINGS))
-
 
 if __name__ == '__main__':
     unittest.main()

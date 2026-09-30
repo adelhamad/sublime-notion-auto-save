@@ -113,7 +113,7 @@ class NotionSaveCommand(sublime_plugin.WindowCommand):
                 title = next((line.strip()[:120] for line in text.splitlines() if line.strip()), "Untitled")
             worker.queue.add(text, title, target)
         except Exception as error:
-            sublime.error_message("Notion Save: %s\n\nYour tab is still open. Use Notion: Settings to configure the plugin." % error)
+            sublime.error_message("Notion Save: %s\n\nYour tab is still open. Use Preferences: NotionSave Settings to configure the plugin." % error)
             return
 
         # The durable snapshot exists before suppressing Sublime's save prompt.
@@ -131,35 +131,6 @@ class NotionSaveCommand(sublime_plugin.WindowCommand):
                     other.set_scratch(scratch)
             worker.wake.set()
         sublime.status_message("Queued for Notion: " + title)
-
-
-class NotionSaveSettingsCommand(sublime_plugin.WindowCommand):
-    def run(self):
-        path = os.path.join(sublime.packages_path(), "User", SETTINGS)
-        if not os.path.exists(path):
-            fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-            with os.fdopen(fd, "w") as handle:
-                handle.write('{\n    "api_key": "",\n    "database_id": "",\n    "data_source_id": "",\n    "curl_path": "curl"\n}\n')
-        package = __package__ or os.path.basename(os.path.dirname(__file__))
-        if int(sublime.version()) >= 3124:
-            self.window.run_command("edit_settings", {
-                "base_file": "${packages}/" + package + "/" + SETTINGS,
-                "user_file": path
-            })
-        else:
-            # edit_settings was added in ST3 build 3124; preserve ST2 support.
-            sublime.run_command("new_window")
-            window = sublime.active_window()
-            window.run_command("set_layout", {
-                "cols": [0.0, 0.5, 1.0], "rows": [0.0, 1.0],
-                "cells": [[0, 0, 1, 1], [1, 0, 2, 1]]
-            })
-            window.focus_group(0)
-            window.run_command("open_file", {
-                "file": "${packages}/" + package + "/" + SETTINGS
-            })
-            window.focus_group(1)
-            window.open_file(path)
 
 
 class NotionRetryUploadsCommand(sublime_plugin.WindowCommand):

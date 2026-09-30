@@ -1,0 +1,6 @@
+NotionSave 1.0.2
+
+Settings now open with Sublime's standard edit_settings command:
+Command Palette > "Preferences: NotionSave Settings", or
+Preferences > Package Settings > NotionSave > Settings.
+"Notion: Settings" has been removed.

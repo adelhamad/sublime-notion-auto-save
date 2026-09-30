@@ -3,7 +3,7 @@ NotionSave
 
 Save your current buffer to Notion and close the tab without a network wait.
 
-1. Open the Command Palette and run "Notion: Settings".
+1. Open the Command Palette and run "Preferences: NotionSave Settings".
 2. Set api_key and database_id (or data_source_id).
 3. Share your Notion database with the connection. Enable Read content,
    Insert content, and Update content.

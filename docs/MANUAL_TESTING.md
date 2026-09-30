@@ -14,7 +14,7 @@ Record:
 
 - [ ] Install once (no duplicate source-folder and archive installs), restart, and check Sublime's console for errors.
 - [ ] Confirm “Save to Notion” in the editor context menu, tab context menu, File menu, and Command Palette.
-- [ ] Run “Notion: Settings”; confirm it opens the user settings, not the bundled defaults.
+- [ ] Run “Preferences: NotionSave Settings”; confirm it opens the user settings, not the bundled defaults.
 - [ ] Configure the connection token and database URL. Grant Read, Insert, and Update content access; connect it to the database.
 - [ ] Confirm missing token/invalid ID leaves the tab open with its unsaved state intact.
 

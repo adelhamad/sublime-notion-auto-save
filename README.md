@@ -10,7 +10,7 @@ Targets Sublime Text 2 (build 2221+) with Python 2.6-compatible runtime code; al
 2. In Sublime Text, choose **Preferences → Browse Packages…**.
 3. Copy the extracted repository into that folder as **NotionSave**. `notion_save_plugin.py` must be directly inside `Packages/NotionSave/`, alongside `notion_save/`.
 4. Restart Sublime Text.
-5. Open the Command Palette and run **Notion: Settings**.
+5. Open the Command Palette and run **Preferences: NotionSave Settings**.
 
 Alternatively, download `NotionSave.sublime-package` from the [latest release](https://github.com/adelhamad/sublime-notion-auto-save/releases/latest). Developers can build it with `python3 scripts/build_package.py`. Put that archive in Sublime's **Installed Packages** directory, which is next to **Packages**, then restart. Install either the source folder or the archive, not both.
 
@@ -18,7 +18,7 @@ Alternatively, download `NotionSave.sublime-package` from the [latest release](h
 
 Create an internal connection at [Notion's integration settings](https://www.notion.so/profile/integrations). Enable **Read content**, **Insert content**, and **Update content**. Add the connection to the target database using its **••• → Connections** menu.
 
-Run **Notion: Settings**, enter your token and database URL or ID, then save:
+Run **Preferences: NotionSave Settings**, enter your token and database URL or ID, then save:
 
 ```json
 {

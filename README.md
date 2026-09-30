@@ -29,7 +29,7 @@ Run **Notion: Settings**, enter your token and database URL or ID, then save:
 }
 ```
 
-The settings command shows bundled defaults and your editable user settings side by side. Settings are stored in `Packages/User/Notion Save.sublime-settings`, outside the plugin repository. Leave the bundled settings empty. Instead of `api_key`, you can set `NOTION_API_KEY` in the environment inherited by Sublime (GUI-launched apps may not inherit shell variables).
+The settings command shows bundled defaults and your editable user settings side by side. Settings are stored in `Packages/User/NotionSave.sublime-settings`, outside the plugin repository. Leave the bundled settings empty. Instead of `api_key`, you can set `NOTION_API_KEY` in the environment inherited by Sublime (GUI-launched apps may not inherit shell variables).
 
 - `database_id`: accepts a database ID or full Notion database URL. A database with one data source is resolved automatically.
 - `data_source_id`: optional, takes precedence over `database_id`. Set it explicitly if the database has multiple data sources. The title property is discovered automatically.

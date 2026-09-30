@@ -8,8 +8,8 @@ FILES = [
     'notion_save_plugin.py',
     'notion_save/__init__.py',
     'notion_save/core.py',
-    'Notion Save.sublime-settings',
-    'Notion Save.sublime-commands',
+    'NotionSave.sublime-settings',
+    'NotionSave.sublime-commands',
     'Context.sublime-menu',
     'Tab Context.sublime-menu',
     'Main.sublime-menu',
@@ -20,7 +20,7 @@ FILES = [
 
 def build():
     # Validate the shipped defaults; reject accidental credential configuration.
-    settings_text = (ROOT / 'Notion Save.sublime-settings').read_text()
+    settings_text = (ROOT / 'NotionSave.sublime-settings').read_text()
     settings = json.loads('\n'.join(line for line in settings_text.splitlines()
                                     if not line.lstrip().startswith('//')))
     for key in ('api_key', 'database_id', 'data_source_id'):

@@ -10,7 +10,7 @@ try:
 except (ImportError, ValueError):
     from notion_save.core import Queue, Worker, notion_id, CurlClient
 
-SETTINGS = "Notion Save.sublime-settings"
+SETTINGS = "NotionSave.sublime-settings"
 _previous_worker = globals().get("_worker") or globals().get("_previous_worker")
 if _previous_worker:
     _previous_worker.stop()

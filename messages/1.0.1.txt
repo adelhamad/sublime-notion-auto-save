@@ -1,0 +1,6 @@
+NotionSave 1.0.1
+
+The settings file is now named NotionSave.sublime-settings to match the
+package name. If you configured 1.0.0, rename
+Packages/User/Notion Save.sublime-settings to
+Packages/User/NotionSave.sublime-settings.

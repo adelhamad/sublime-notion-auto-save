@@ -18,7 +18,7 @@ Adel authorized publication, selected the MIT license, and made the existing rep
 - Automated unittest suite: 36 tests, including persistence, retries, recovery, Unicode, transport, tab targeting, menu visibility, and settings behavior.
 - Cross-platform CI covers Python 3.10 and 3.14 on macOS, Windows, and Linux. This validates Python behavior; it does not substitute for running every legacy Sublime editor build.
 - Package archive built and verified with an explicit file allowlist.
-- Package Control's current package reviewer passes with no failures. Its settings-name advisory is intentional: `Notion Save.sublime-settings` is retained to preserve existing user credentials and configuration.
+- Package Control's current package reviewer passes with no failures. Settings and command files use the package name (`NotionSave.*`), per reviewer feedback on the channel PR.
 - The current channel schema validator passes locally. The channel's own PR checks will validate the submitted revision again.
 - No Notion integration package or NotionSave name conflict was found in the default channel at submission preparation time.
 

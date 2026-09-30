@@ -4,7 +4,7 @@ __pycache__/
 .env
 .venv/
 dist/
-Notion Save.sublime-settings.local
+NotionSave.sublime-settings.local
 *.sublime-workspace
 
 
